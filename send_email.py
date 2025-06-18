@@ -32,7 +32,7 @@ def embedir_imagenes_en_html(soup, mail, ruta_base_imagenes):
             )
 
 # Enviar correo atravéz de outlook
-def main(project_address, MAIL_TO, MAIL_CC, html_name):
+def main(project_address, MAIL_TO, MAIL_CC, html_name, subject):
     # Crear instancia de Outlook
     outlook = win32com.client.Dispatch("Outlook.Application")
     mail = outlook.CreateItem(0) # 0 = MailItem
@@ -49,7 +49,7 @@ def main(project_address, MAIL_TO, MAIL_CC, html_name):
     html_body = str(html_body)
 
     # Asunto
-    mail.Subject = f'ALERTA: Detección de contrato cerca a finalizar'
+    mail.Subject = subject
     
     # Destinatarios principales
     mail.To = MAIL_TO
@@ -65,3 +65,8 @@ def main(project_address, MAIL_TO, MAIL_CC, html_name):
 
     # Enviar el correo
     mail.Send()
+
+    # Mensaje Exitoso
+    print(f'\n[*] Estado: Se detecto la alerta {html_name}\n')
+    print(f'[*] Correo: {subject}.\n')
+    print(f'[✓] Enviado exitosamente\n')

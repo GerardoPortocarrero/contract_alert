@@ -198,3 +198,4 @@ cython_debug/
 *.bat
 *.xlsx
 *.html
+main.py
