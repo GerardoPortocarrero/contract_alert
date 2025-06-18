@@ -12,7 +12,7 @@ def report_configuration(project_address, graphic_name, df):
     circle_height = 9
     circle_label = 17
     circle_fontsize = 20
-    color_1 = "#00ff0d7a"
+    color_1 = "#1bc724"
     color_2 = "#f1c40f"
     color_3 = "#e74c3c"
 

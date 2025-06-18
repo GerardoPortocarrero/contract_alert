@@ -32,13 +32,13 @@ def embedir_imagenes_en_html(soup, mail, ruta_base_imagenes):
             )
 
 # Enviar correo atravéz de outlook
-def main(project_address, MAIL_TO, MAIL_CC):
+def main(project_address, MAIL_TO, MAIL_CC, html_name):
     # Crear instancia de Outlook
     outlook = win32com.client.Dispatch("Outlook.Application")
     mail = outlook.CreateItem(0) # 0 = MailItem
 
     # Leer el archivo HTML
-    with open(os.path.join(project_address, 'index.html'), "r", encoding="utf-8") as f:
+    with open(os.path.join(project_address, f'{html_name}.html'), "r", encoding="utf-8") as f:
         html_body = f.read()
 
     # Embebe todas las imágenes antes de guardar o enviar
