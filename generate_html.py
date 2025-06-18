@@ -299,10 +299,10 @@ def generate_indetermined_html(df_determined, df_indetermined, indetermined):
     <body>
         <div class="container">
             <h1>📊 Alerta de Contratos</h1>
-            <p class="description">Se detectó personal a una semana o un mes de finalizar su contrato.</p>
+            <p class="description">Se detectó personal a punto de cumplir 3 años en la empresa.</p>
 
             <div class="section">
-                <div class="section-title">📌 Indeterminados por Cumplir 3 Años</div>
+                <div class="section-title">📌 Por Cumplir 3 Años</div>
                 <div class="main-content">
                     <div class="tables-wrapper">
     """
