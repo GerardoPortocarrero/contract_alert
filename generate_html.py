@@ -1,6 +1,6 @@
 def generate_html(df, determined, indetermined):
     colores = {
-        '< 1 semana': '#e74c3c',
+        '< 10 dias': '#e74c3c',
         '< 1 mes': '#f1c40f',
         '< 3 meses': '#00ff0d7a',
     }
@@ -140,7 +140,7 @@ def generate_html(df, determined, indetermined):
                     <div class="tables-wrapper">
     """
 
-    for rango in ['< 1 semana', '< 1 mes', '< 3 meses']:
+    for rango in ['< 10 dias', '< 1 mes', '< 3 meses']:
         df_rango = df[df['RANGO_ALERTA'] == rango]
         if df_rango.empty:
             continue

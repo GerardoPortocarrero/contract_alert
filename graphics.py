@@ -70,7 +70,7 @@ def circle_graphic(
     ):
     # Conteo por rango en orden específico
     conteo_rangos = df['RANGO_ALERTA'].value_counts().reindex(
-        ['< 3 meses', '< 1 mes', '< 1 semana'], fill_value=0
+        ['< 3 meses', '< 1 mes', '< 10 dias'], fill_value=0
     )
 
     # Explosión y colores estilo semáforo Coca-Cola

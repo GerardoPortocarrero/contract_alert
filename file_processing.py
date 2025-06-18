@@ -17,8 +17,8 @@ def calculate_left_days(df):
 
     # Clasificar en rangos
     def clasificar_rango(days):
-        if days < 7:
-            return '< 1 semana'
+        if days < 10:
+            return '< 10 dias'
         elif days < 30:
             return '< 1 mes'
         elif days < 90:
@@ -29,7 +29,7 @@ def calculate_left_days(df):
     df['RANGO_ALERTA'] = df['DIAS_RESTANTES'].apply(clasificar_rango)
     df = df[df['RANGO_ALERTA'].notna()]
 
-    less_than_a_week = (df['RANGO_ALERTA'] == '< 1 semana').any()
+    less_than_a_week = (df['RANGO_ALERTA'] == '< 10 dias').any()
 
     return df, less_than_a_week
 
