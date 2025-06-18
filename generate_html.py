@@ -2,7 +2,7 @@ def generate_html(df, determined, indetermined):
     colores = {
         '< 1 semana': '#e74c3c',
         '< 1 mes': '#f1c40f',
-        '< 3 meses': '#00ff0d7a',        
+        '< 3 meses': '#00ff0d7a',
     }
 
     html = f"""
@@ -19,15 +19,43 @@ def generate_html(df, determined, indetermined):
             .container {{
                 max-width: 900px;
                 margin: auto;
-                padding: 20px;
+                padding: 20px 30px;
                 background-color: #ffffff;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0,0,0,0.05);
+                border-radius: 12px;
+                box-shadow: 0 0 15px rgba(0,0,0,0.08);
             }}
-            h2 {{
+            h1 {{
                 text-align: center;
-                margin-bottom: 20px;
+                font-size: 30px;
                 color: #2c3e50;
+                margin-bottom: 5px;
+            }}
+            .description {{
+                text-align: center;
+                font-size: 16px;
+                color: #7f8c8d;
+                margin-bottom: 30px;
+            }}
+            .section {{
+                margin-top: 30px;
+                padding-top: 20px;
+                border-top: 2px solid #ecf0f1;
+            }}
+            .section-title {{
+                text-align: center;
+                font-size: 22px;
+                color: #34495e;
+                position: relative;
+                margin-bottom: 25px;
+            }}
+            .section-title::after {{
+                content: "";
+                display: block;
+                width: 60px;
+                height: 3px;
+                background-color: #3498db;
+                margin: 8px auto 0 auto;
+                border-radius: 2px;
             }}
             .main-content {{
                 display: flex;
@@ -35,6 +63,8 @@ def generate_html(df, determined, indetermined):
                 gap: 20px;
                 justify-content: center;
                 align-items: flex-start;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 25px;
             }}
             .image-wrapper {{
                 flex: 1 1 300px;
@@ -77,7 +107,7 @@ def generate_html(df, determined, indetermined):
             .full-width-image-wrapper {{
                 width: 100%;
                 text-align: center;
-                margin-top: -10px;
+                margin-top: 10px;
             }}
             .full-width-image-wrapper img {{
                 width: 100%;
@@ -98,12 +128,16 @@ def generate_html(df, determined, indetermined):
     </head>
     <body>
         <div class="container">
-            <h2>📌 Contratos Próximos a Finalizar</h2>
-            <div class="main-content">
-                <div class="image-wrapper">
-                    <img src="cid:{determined}" alt="Gráfico de Contratos">
-                </div>
-                <div class="tables-wrapper">
+            <h1>📊 Alerta de Contratos</h1>
+            <p class="description">Se detectó personal a una semana de finalizar su contrato.</p>
+
+            <div class="section">
+                <div class="section-title">📌 Contratos Próximos a Finalizar</div>
+                <div class="main-content">
+                    <div class="image-wrapper">
+                        <img src="cid:{determined}" alt="Gráfico de Contratos">
+                    </div>
+                    <div class="tables-wrapper">
     """
 
     for rango in ['< 1 semana', '< 1 mes', '< 3 meses']:
@@ -113,18 +147,22 @@ def generate_html(df, determined, indetermined):
         columnas = ['PERSONA', 'TIPO_CONTRATO', 'DIAS_RESTANTES']
         tabla_html = df_rango[columnas].to_html(index=False, border=0)
         html += f"""
-            <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
-            {tabla_html}
+                        <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
+                        {tabla_html}
         """
 
     html += f"""
+                    </div>
                 </div>
             </div>
 
-            <h2>📌 Contratos Indeterminados</h2>
-            <div class="full-width-image-wrapper">
-                <img src="cid:{indetermined}" alt="Contratos Indeterminados">
+            <div class="section">
+                <div class="section-title">📌 Contratos Indeterminados</div>
+                <div class="full-width-image-wrapper">
+                    <img src="cid:{indetermined}" alt="Contratos Indeterminados">
+                </div>
             </div>
+
         </div>
     </body>
     </html>

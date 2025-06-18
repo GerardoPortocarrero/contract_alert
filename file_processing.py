@@ -29,7 +29,9 @@ def calculate_left_days(df):
     df['RANGO_ALERTA'] = df['DIAS_RESTANTES'].apply(clasificar_rango)
     df = df[df['RANGO_ALERTA'].notna()]
 
-    return df
+    less_than_a_week = (df['RANGO_ALERTA'] == '< 1 semana').any()
+
+    return df, less_than_a_week
 
 # Juntar columnas para formar nombre completo
 def join_name_and_lastname(df):

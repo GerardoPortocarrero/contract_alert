@@ -100,12 +100,11 @@ def circle_graphic(
         wedges,
         conteo_rangos.index,
         loc='upper center',
-        bbox_to_anchor=(0.5, 1.05),  # justo encima del círculo
+        bbox_to_anchor=(0.5, 1.04),  # justo encima del círculo
         ncol=3,
         fontsize=circle_label,
         frameon=True,
         fancybox=True,
-        shadow=True,
         borderpad=1
     )
 
