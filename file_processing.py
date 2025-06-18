@@ -1,6 +1,33 @@
 from datetime import datetime
 import pandas as pd
 
+# Calcular los trabajadores indeterminados cercanos a cumplir 3 años
+def calculated_three_years_workers(df):
+    # Calcular días trabajados
+    today = pd.Timestamp.today()
+    df['DIAS_TRABAJADOS'] = (today - df['FECINGRESO_A']).dt.days
+
+    # Días que faltan para 3 años (1095 días)
+    df['DIAS_FALTANTES'] = 1095 - df['DIAS_TRABAJADOS']
+
+    # Clasificar solo entre 7 y 30 días antes de cumplir 3 años
+    def clasificar_rango(dias_faltantes):
+        if 0 < dias_faltantes <= 7:
+            return '< 7 dias'
+        elif 7 < dias_faltantes <= 30:
+            return '< 1 mes'
+        else:
+            return None
+
+    df['RANGO_ALERTA'] = df['DIAS_FALTANTES'].apply(clasificar_rango)
+
+    # Filtrar solo los que estén cerca de cumplir 3 años
+    df = df[df['RANGO_ALERTA'].notna()]
+
+    less_than_a_week = (df['RANGO_ALERTA'] == '< 7 dias').any()
+
+    return df, less_than_a_week
+
 # Calcular dias trabajados para contratos indeterminados
 def calculate_days_worked(df):
     # Calculamos días trabajados
@@ -29,9 +56,9 @@ def calculate_left_days(df):
     df['RANGO_ALERTA'] = df['DIAS_RESTANTES'].apply(clasificar_rango)
     df = df[df['RANGO_ALERTA'].notna()]
 
-    less_than_a_week = (df['RANGO_ALERTA'] == '< 10 dias').any()
+    less_than_10_days = (df['RANGO_ALERTA'] == '< 10 dias').any()
 
-    return df, less_than_a_week
+    return df, less_than_10_days
 
 # Juntar columnas para formar nombre completo
 def join_name_and_lastname(df):

@@ -1,5 +1,5 @@
 # HTML para alertar de contratos cerca a finalizar (10 dias)
-def generate_determined_html(df, determined, indetermined):
+def generate_determined_html(df_determined, indetermined):
     colores = {
         '< 10 dias': '#e74c3c',
         '< 1 mes': '#f1c40f',
@@ -79,8 +79,7 @@ def generate_determined_html(df, determined, indetermined):
                 border-radius: 8px;
             }}
             .tables-wrapper {{
-                flex: 1 1 300px;
-                max-width: 500px;
+                width: 100%;
             }}
             h3 {{
                 margin: 20px 0 5px 0;
@@ -139,7 +138,7 @@ def generate_determined_html(df, determined, indetermined):
     """
 
     for rango in ['< 10 dias', '< 1 mes', '< 3 meses']:
-        df_rango = df[df['RANGO_ALERTA'] == rango]
+        df_rango = df_determined[df_determined['RANGO_ALERTA'] == rango]
         if df_rango.empty:
             continue
         columnas = ['PERSONA', 'TIPO_CONTRATO', 'DIAS_RESTANTES']
@@ -150,9 +149,6 @@ def generate_determined_html(df, determined, indetermined):
         """
 
     html += f"""
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="cid:{determined}" alt="Gráfico de Contratos">
                     </div>
                 </div>
             </div>
@@ -172,8 +168,9 @@ def generate_determined_html(df, determined, indetermined):
     return html
 
 # HTML para alertar de contratos indeterminados (mas de 3 años)
-def generate_indetermined_html(df, determined, indetermined):
+def generate_indetermined_html(df_determined, df_indetermined, indetermined):
     colores = {
+        '< 7 dias': '#e74c3c',
         '< 10 dias': '#e74c3c',
         '< 1 mes': '#f1c40f',
         '< 3 meses': '#1bc724',
@@ -252,8 +249,7 @@ def generate_indetermined_html(df, determined, indetermined):
                 border-radius: 8px;
             }}
             .tables-wrapper {{
-                flex: 1 1 300px;
-                max-width: 500px;
+                width: 100%;
             }}
             h3 {{
                 margin: 20px 0 5px 0;
@@ -303,7 +299,30 @@ def generate_indetermined_html(df, determined, indetermined):
     <body>
         <div class="container">
             <h1>📊 Alerta de Contratos</h1>
-            <p class="description">Se detectó personal a una semana de finalizar su contrato.</p>
+            <p class="description">Se detectó personal a una semana o un mes de finalizar su contrato.</p>
+
+            <div class="section">
+                <div class="section-title">📌 Indeterminados por Cumplir 3 Años</div>
+                <div class="main-content">
+                    <div class="tables-wrapper">
+    """
+
+    # Indeterminados a punto de cumplir 3 años
+    for rango in ['< 7 dias', '< 1 mes']:
+        df_rango = df_indetermined[df_indetermined['RANGO_ALERTA'] == rango]
+        if df_rango.empty:
+            continue
+        columnas = ['PERSONA', 'TIPO_CONTRATO', 'DIAS_TRABAJADOS', 'DIAS_FALTANTES']
+        tabla_html = df_rango[columnas].to_html(index=False, border=0)
+        html += f"""
+                        <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
+                        {tabla_html}
+        """
+
+    html += f"""
+                    </div>
+                </div>
+            </div>
 
             <div class="section">
                 <div class="section-title">📌 Contratos Indeterminados</div>
@@ -313,16 +332,14 @@ def generate_indetermined_html(df, determined, indetermined):
             </div>
 
             <div class="section">
-                <div class="section-title">📌 Contratos Próximos a Finalizar</div>
+                <div class="section-title">📌 Contratos Determinados por Vencer</div>
                 <div class="main-content">
-                    <div class="image-wrapper">
-                        <img src="cid:{determined}" alt="Gráfico de Contratos">
-                    </div>
                     <div class="tables-wrapper">
     """
 
+    # Determinados
     for rango in ['< 10 dias', '< 1 mes', '< 3 meses']:
-        df_rango = df[df['RANGO_ALERTA'] == rango]
+        df_rango = df_determined[df_determined['RANGO_ALERTA'] == rango]
         if df_rango.empty:
             continue
         columnas = ['PERSONA', 'TIPO_CONTRATO', 'DIAS_RESTANTES']
@@ -343,3 +360,4 @@ def generate_indetermined_html(df, determined, indetermined):
     """
 
     return html
+
