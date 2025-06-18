@@ -4,7 +4,9 @@ import graphics as myg
 # REPORTES
 def report_configuration(project_address, graphic_name, df):
     # CONFIGURACION GENERAL
-    bar_label = 12
+    bar_width = 13
+    bar_height = 8
+    bar_label = 14
     bar_fontsize = 20
     circle_width = 9
     circle_height = 9
@@ -28,10 +30,12 @@ def report_configuration(project_address, graphic_name, df):
             color_3
         )
     else:
-        myg.barh_graphic(
+        myg.column_graphic(
             project_address,
             graphic_name,
             df,
+            bar_width,
+            bar_height,
             bar_label,
             bar_fontsize,
         )

@@ -1,8 +1,8 @@
-def generate_html(df, cid_imagen):
+def generate_html(df, determined, indetermined):
     colores = {
-        '< 3 meses': '#00ff0d7a',
-        '< 1 mes': '#f1c40f',
         '< 1 semana': '#e74c3c',
+        '< 1 mes': '#f1c40f',
+        '< 3 meses': '#00ff0d7a',        
     }
 
     html = f"""
@@ -74,6 +74,17 @@ def generate_html(df, cid_imagen):
                 background-color: #2c3e50;
                 color: white;
             }}
+            .full-width-image-wrapper {{
+                width: 100%;
+                text-align: center;
+                margin-top: -10px;
+            }}
+            .full-width-image-wrapper img {{
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+            }}
             @media only screen and (max-width: 768px) {{
                 .main-content {{
                     flex-direction: column;
@@ -90,13 +101,12 @@ def generate_html(df, cid_imagen):
             <h2>📌 Contratos Próximos a Finalizar</h2>
             <div class="main-content">
                 <div class="image-wrapper">
-                    <img src="cid:{cid_imagen}" alt="Gráfico de Contratos">
+                    <img src="cid:{determined}" alt="Gráfico de Contratos">
                 </div>
                 <div class="tables-wrapper">
     """
 
-    # Agregar las tablas por rango
-    for rango in ['< 3 meses', '< 1 mes', '< 1 semana']:
+    for rango in ['< 1 semana', '< 1 mes', '< 3 meses']:
         df_rango = df[df['RANGO_ALERTA'] == rango]
         if df_rango.empty:
             continue
@@ -107,8 +117,13 @@ def generate_html(df, cid_imagen):
             {tabla_html}
         """
 
-    html += """
+    html += f"""
                 </div>
+            </div>
+
+            <h2>📌 Contratos Indeterminados</h2>
+            <div class="full-width-image-wrapper">
+                <img src="cid:{indetermined}" alt="Contratos Indeterminados">
             </div>
         </div>
     </body>
