@@ -69,4 +69,4 @@ def main(project_address, MAIL_TO, MAIL_CC, html_name, subject):
     # Mensaje Exitoso
     print(f'\n[*] Estado: Se detecto la alerta {html_name}')
     print(f'[*] Correo: {subject}.')
-    print(f'[✓] Enviado exitosamente.')
+    print(f'[✓] Enviado exitosamente.\n')
