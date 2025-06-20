@@ -1,5 +1,5 @@
 # HTML para alertar de contratos cerca a finalizar (10 dias)
-def generate_determined_html(df_determined, indetermined):
+def generate_determined_html(df_determined, indetermined, LOGO_AYA):
     colores = {
         '< 10 dias': '#e74c3c',
         '< 1 mes': '#f1c40f',
@@ -25,74 +25,9 @@ def generate_determined_html(df_determined, indetermined):
                 border-radius: 12px;
                 box-shadow: 0 0 15px rgba(0,0,0,0.08);
             }}
-            h1 {{
-                text-align: center;
-                font-size: 30px;
-                color: #2c3e50;
-                margin-bottom: 5px;
-            }}
-            .description {{
-                text-align: center;
-                font-size: 16px;
-                color: #7f8c8d;
-                margin-bottom: 30px;
-            }}
-            .section {{
-                margin-top: 30px;
-                padding-top: 20px;
-                border-top: 2px solid #ecf0f1;
-            }}
-            .section-title {{
-                text-align: center;
-                font-size: 22px;
-                color: #34495e;
-                position: relative;
-                margin-bottom: 25px;
-            }}
-            .section-title::after {{
-                content: "";
-                display: block;
-                width: 60px;
-                height: 3px;
-                background-color: #3498db;
-                margin: 8px auto 0 auto;
-                border-radius: 2px;
-            }}
-            .main-content {{
-                display: flex;
-                flex-wrap: wrap;
-                gap: 20px;
-                justify-content: center;
-                align-items: flex-start;
-                border-bottom: 1px solid #ddd;
-                padding-bottom: 25px;
-            }}
-            .image-wrapper {{
-                flex: 1 1 300px;
-                max-width: 400px;
-                text-align: center;
-                padding-top: 16px;
-            }}
-            .image-wrapper img {{
-                width: 100%;
-                height: auto;
-                border-radius: 8px;
-            }}
-            .tables-wrapper {{
-                width: 100%;
-            }}
-            h3 {{
-                margin: 20px 0 5px 0;
-                padding: 10px;
-                color: white;
-                border-radius: 5px;
-                font-size: 15px;
-                text-align: center;
-            }}
             table {{
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 25px;
             }}
             th, td {{
                 border: 1px solid #ccc;
@@ -103,6 +38,37 @@ def generate_determined_html(df_determined, indetermined):
             th {{
                 background-color: #2c3e50;
                 color: white;
+            }}
+            h3 {{
+                margin: 20px 0 5px 0;
+                padding: 10px;
+                color: white;
+                border-radius: 5px;
+                font-size: 15px;
+                text-align: center;
+            }}
+            .section-title {{
+                text-align: center;
+                font-size: 20px;
+                color: #34495e;
+                font-weight: bold;
+                margin: 40px 0 10px;
+                position: relative;
+            }}
+            .section-title::after {{
+                content: "";
+                display: block;
+                width: 60px;
+                height: 3px;
+                background-color: #3498db;
+                margin: 8px auto 0 auto;
+                border-radius: 2px;
+            }}
+            .divider {{
+                margin: 40px auto;
+                width: 80%;
+                height: 1px;
+                background-color: #e0e0e0;
             }}
             .full-width-image-wrapper {{
                 width: 100%;
@@ -115,26 +81,29 @@ def generate_determined_html(df_determined, indetermined):
                 height: auto;
                 border-radius: 8px;
             }}
-            @media only screen and (max-width: 768px) {{
-                .main-content {{
-                    flex-direction: column;
-                    align-items: center;
-                }}
-                .image-wrapper, .tables-wrapper {{
-                    max-width: 100%;
-                }}
-            }}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>📊 Alerta de Contratos</h1>
-            <p class="description">Se detectó personal a una semana de finalizar su contrato.</p>
 
-            <div class="section">
-                <div class="section-title">📌 Contratos Próximos a Finalizar</div>
-                <div class="main-content">                    
-                    <div class="tables-wrapper">
+            <!-- Encabezado con logo y título -->
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 10px;">
+                <tr>
+                    <td style="vertical-align: middle; border: none;">
+                        <img src="cid:{LOGO_AYA}" alt="Logo" style="height: 170px;">
+                    </td>
+                    <td style="vertical-align: middle; text-align: center; border: none;">
+                        <h1 style="margin: 0; font-size: 28px; color: #2c3e50;">Alerta de Contratos</h1>
+                        <p style="margin: 6px 0 0; font-size: 15px; color: #7f8c8d;">Se detectó personal a una semana de finalizar su contrato.</p>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Separador visual -->
+            <div class="divider"></div>
+
+            <!-- Sección: Contratos Próximos a Finalizar -->
+            <div class="section-title">📌 Contratos Próximos a Finalizar</div>
     """
 
     for rango in ['< 10 dias', '< 1 mes', '< 3 meses']:
@@ -144,20 +113,18 @@ def generate_determined_html(df_determined, indetermined):
         columnas = ['PERSONA', 'TIPO_CONTRATO', 'DIAS_RESTANTES']
         tabla_html = df_rango[columnas].to_html(index=False, border=0)
         html += f"""
-                        <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
-                        {tabla_html}
+            <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
+            {tabla_html}
         """
 
     html += f"""
-                    </div>
-                </div>
-            </div>
+            <!-- Separador visual -->
+            <div class="divider"></div>
 
-            <div class="section">
-                <div class="section-title">📌 Contratos Indeterminados</div>
-                <div class="full-width-image-wrapper">
-                    <img src="cid:{indetermined}" alt="Contratos Indeterminados">
-                </div>
+            <!-- Sección: Imagen Contratos Indeterminados -->
+            <div class="section-title">📌 Contratos Indeterminados</div>
+            <div class="full-width-image-wrapper">
+                <img src="cid:{indetermined}" alt="Contratos Indeterminados">
             </div>
 
         </div>
@@ -167,8 +134,9 @@ def generate_determined_html(df_determined, indetermined):
 
     return html
 
+
 # HTML para alertar de contratos indeterminados (mas de 3 años)
-def generate_indetermined_html(df_determined, df_indetermined, indetermined):
+def generate_indetermined_html(df_determined, df_indetermined, indetermined, LOGO_AYA):
     colores = {
         '< 7 dias': '#e74c3c',
         '< 10 dias': '#e74c3c',
@@ -195,74 +163,9 @@ def generate_indetermined_html(df_determined, df_indetermined, indetermined):
                 border-radius: 12px;
                 box-shadow: 0 0 15px rgba(0,0,0,0.08);
             }}
-            h1 {{
-                text-align: center;
-                font-size: 30px;
-                color: #2c3e50;
-                margin-bottom: 5px;
-            }}
-            .description {{
-                text-align: center;
-                font-size: 16px;
-                color: #7f8c8d;
-                margin-bottom: 30px;
-            }}
-            .section {{
-                margin-top: 30px;
-                padding-top: 20px;
-                border-top: 2px solid #ecf0f1;
-            }}
-            .section-title {{
-                text-align: center;
-                font-size: 22px;
-                color: #34495e;
-                position: relative;
-                margin-bottom: 25px;
-            }}
-            .section-title::after {{
-                content: "";
-                display: block;
-                width: 60px;
-                height: 3px;
-                background-color: #3498db;
-                margin: 8px auto 0 auto;
-                border-radius: 2px;
-            }}
-            .main-content {{
-                display: flex;
-                flex-wrap: wrap;
-                gap: 20px !important;
-                justify-content: center;
-                align-items: flex-start;
-                border-bottom: 1px solid #ddd;
-                padding-bottom: 25px;
-            }}
-            .image-wrapper {{
-                flex: 1 1 300px;
-                max-width: 400px;
-                text-align: center;
-                padding-top: 16px;
-            }}
-            .image-wrapper img {{
-                width: 100%;
-                height: auto;
-                border-radius: 8px;
-            }}
-            .tables-wrapper {{
-                width: 100%;
-            }}
-            h3 {{
-                margin: 20px 0 5px 0;
-                padding: 10px;
-                color: white;
-                border-radius: 5px;
-                font-size: 15px;
-                text-align: center;
-            }}
             table {{
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 25px;
             }}
             th, td {{
                 border: 1px solid #ccc;
@@ -274,40 +177,61 @@ def generate_indetermined_html(df_determined, df_indetermined, indetermined):
                 background-color: #2c3e50;
                 color: white;
             }}
-            .full-width-image-wrapper {{
-                width: 100%;
+            h3 {{
+                margin: 20px 0 5px 0;
+                padding: 10px;
+                color: white;
+                border-radius: 5px;
+                font-size: 15px;
                 text-align: center;
-                margin-top: 10px;
             }}
-            .full-width-image-wrapper img {{
-                width: 100%;
-                max-width: 100%;
-                height: auto;
-                border-radius: 8px;
+            .section-title {{
+                text-align: center;
+                font-size: 20px;
+                color: #34495e;
+                font-weight: bold;
+                margin: 40px 0 10px;
+                position: relative;
             }}
-            @media only screen and (max-width: 768px) {{
-                .main-content {{
-                    flex-direction: column;
-                    align-items: center;
-                }}
-                .image-wrapper, .tables-wrapper {{
-                    max-width: 100%;
-                }}
+            .section-title::after {{
+                content: "";
+                display: block;
+                width: 60px;
+                height: 3px;
+                background-color: #3498db;
+                margin: 8px auto 0 auto;
+                border-radius: 2px;
+            }}
+            .divider {{
+                margin: 40px auto;
+                width: 80%;
+                height: 1px;
+                background-color: #e0e0e0;
             }}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>📊 Alerta de Contratos</h1>
-            <p class="description">Se detectó personal a punto de cumplir 3 años en la empresa.</p>
+            <!-- Encabezado con logo y título -->
+            <table width="100%" cellpadding="0" cellspacing="0" style="padding: 20px 30px;">
+                <tr>
+                    <td style="width: 120px; text-align: left; border: none;">
+                        <img src="cid:{LOGO_AYA}" alt="Logo" style="height: 170px;">
+                    </td>
+                    <td style="text-align: center; border: none;">
+                        <h1 style="margin: 0; font-size: 26px; color: #2c3e50;">Alerta de Contratos</h1>
+                        <p style="margin: 6px 0 0; font-size: 15px; color: #7f8c8d;">Se detectó personal a punto de cumplir 3 años en la empresa.</p>
+                    </td>
+                </tr>
+            </table>
 
-            <div class="section">
-                <div class="section-title">📌 Por Cumplir 3 Años</div>
-                <div class="main-content">
-                    <div class="tables-wrapper">
+            <!-- Separador visual -->
+            <div class="divider"></div>
+
+            <!-- Sección: Por Cumplir 3 Años -->
+            <div class="section-title">📌 Por Cumplir 3 Años</div>
     """
 
-    # Indeterminados a punto de cumplir 3 años
     for rango in ['< 7 dias', '< 1 mes']:
         df_rango = df_indetermined[df_indetermined['RANGO_ALERTA'] == rango]
         if df_rango.empty:
@@ -315,29 +239,27 @@ def generate_indetermined_html(df_determined, df_indetermined, indetermined):
         columnas = ['PERSONA', 'TIPO_CONTRATO', 'DIAS_TRABAJADOS', 'DIAS_FALTANTES']
         tabla_html = df_rango[columnas].to_html(index=False, border=0)
         html += f"""
-                        <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
-                        {tabla_html}
+            <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
+            {tabla_html}
         """
 
     html += f"""
-                    </div>
-                </div>
+            <!-- Separador visual -->
+            <div class="divider"></div>
+
+            <!-- Sección: Contratos Indeterminados -->
+            <div class="section-title">📌 Contratos Indeterminados</div>
+            <div style="text-align: center;">
+                <img src="cid:{indetermined}" alt="Contratos Indeterminados" style="width: 100%; max-width: 100%; height: auto; border-radius: 8px;">
             </div>
 
-            <div class="section">
-                <div class="section-title">📌 Contratos Indeterminados</div>
-                <div class="full-width-image-wrapper">
-                    <img src="cid:{indetermined}" alt="Contratos Indeterminados">
-                </div>
-            </div>
+            <!-- Separador visual -->
+            <div class="divider"></div>
 
-            <div class="section">
-                <div class="section-title">📌 Contratos Determinados por Vencer</div>
-                <div class="main-content">
-                    <div class="tables-wrapper">
+            <!-- Sección: Contratos Determinados -->
+            <div class="section-title">📌 Contratos Determinados por Vencer</div>
     """
 
-    # Determinados
     for rango in ['< 10 dias', '< 1 mes', '< 3 meses']:
         df_rango = df_determined[df_determined['RANGO_ALERTA'] == rango]
         if df_rango.empty:
@@ -345,15 +267,11 @@ def generate_indetermined_html(df_determined, df_indetermined, indetermined):
         columnas = ['PERSONA', 'TIPO_CONTRATO', 'DIAS_RESTANTES']
         tabla_html = df_rango[columnas].to_html(index=False, border=0)
         html += f"""
-                        <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
-                        {tabla_html}
+            <h3 style="background-color:{colores[rango]};">{rango.upper()}</h3>
+            {tabla_html}
         """
 
-    html += f"""
-                    </div>
-                </div>
-            </div>
-
+    html += """
         </div>
     </body>
     </html>
