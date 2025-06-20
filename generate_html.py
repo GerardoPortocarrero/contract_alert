@@ -89,10 +89,10 @@ def generate_determined_html(df_determined, indetermined, LOGO_AYA):
             <!-- Encabezado con logo y título -->
             <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 10px;">
                 <tr>
-                    <td style="vertical-align: middle; border: none;">
-                        <img src="cid:{LOGO_AYA}" alt="Logo" style="height: 170px;">
+                    <td width="130" align="left" valign="middle" style="border: none;">
+                        <img src="cid:{LOGO_AYA}" alt="Logo" width="200" style="display: block; border: 0; outline: none; text-decoration: none;">
                     </td>
-                    <td style="vertical-align: middle; text-align: center; border: none;">
+                    <td align="center" valign="middle" style="border: none;">
                         <h1 style="margin: 0; font-size: 28px; color: #2c3e50;">Alerta de Contratos</h1>
                         <p style="margin: 6px 0 0; font-size: 15px; color: #7f8c8d;">Se detectó personal a una semana de finalizar su contrato.</p>
                     </td>
@@ -213,14 +213,14 @@ def generate_indetermined_html(df_determined, df_indetermined, indetermined, LOG
     <body>
         <div class="container">
             <!-- Encabezado con logo y título -->
-            <table width="100%" cellpadding="0" cellspacing="0" style="padding: 20px 30px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 10px;">
                 <tr>
-                    <td style="width: 120px; text-align: left; border: none;">
-                        <img src="cid:{LOGO_AYA}" alt="Logo" style="height: 170px;">
+                    <td width="130" align="left" valign="middle" style="border: none;">
+                        <img src="cid:{LOGO_AYA}" alt="Logo" width="200" style="display: block; border: 0; outline: none; text-decoration: none;">
                     </td>
-                    <td style="text-align: center; border: none;">
-                        <h1 style="margin: 0; font-size: 26px; color: #2c3e50;">Alerta de Contratos</h1>
-                        <p style="margin: 6px 0 0; font-size: 15px; color: #7f8c8d;">Se detectó personal a punto de cumplir 3 años en la empresa.</p>
+                    <td align="center" valign="middle" style="border: none;">
+                        <h1 style="margin: 0; font-size: 28px; color: #2c3e50;">Alerta de Contratos</h1>
+                        <p style="margin: 6px 0 0; font-size: 15px; color: #7f8c8d;">Se detectó personal a una semana de finalizar su contrato.</p>
                     </td>
                 </tr>
             </table>
