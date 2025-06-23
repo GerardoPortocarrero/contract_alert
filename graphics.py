@@ -63,10 +63,8 @@ def circle_graphic(
 
 # Grafico para personas con contrato 'A PLAZO INDETERMINADO'
 def format_ym(dias):
-    años = dias // 365
-    meses = (dias % 365) // 30
-    meses = (meses*100) / 12
-    return f"{años}.{f'{meses:,.0f}'}\naños"
+    años = dias / 365
+    return f"{f'{años:,.2f}'}\naños"
 
 def column_graphic(
         project_address, 
@@ -80,7 +78,7 @@ def column_graphic(
     if 'DIAS_TRABAJADOS' not in df.columns:
         raise ValueError("Falta la columna 'DIAS_TRABAJADOS'. Ejecuta calculate_days_worked(df) antes.")
 
-    top10 = df.sort_values(by='DIAS_TRABAJADOS', ascending=False).head(10).copy()
+    top10 = df.sort_values(by='DIAS_TRABAJADOS', ascending=False).head(12).copy()
     top10['ETIQUETA_TIEMPO'] = top10['DIAS_TRABAJADOS'].apply(format_ym)
 
     fig, ax = plt.subplots(figsize=(bar_width, bar_height))
